@@ -8,37 +8,22 @@
 *{
   box-sizing: border-box;
 }
+
 table {
   border-collapse: collapse;
   overflow: hidden;  
+  margin: auto;
 }
+/* прорисовано над выделением - rgba(255,255,255,.1)
+белый фон прозрачен, иначе - выделение не будет видно */
 td{
   border: 1px solid #333;  
   width: 60px;
   height: 60px;
   position: relative;
+   background:radial-gradient(circle at center, #0063ef 45%, rgba(255,255,255,.1) 30%); 
 }
-td:hover{ 
-  background: radial-gradient(circle at center, #110 45%, #FFCC00 30%);   
-}
-tr:hover{
-  background: radial-gradient(circle at center, #0063ef 45%, #ffe581 30%); 
-}
-/* фишки в ячейках 
-т.к. прорисовано над выделением z-index: -1, - rgba(255,255,255,.1)
-белый фон прозрачен, иначе - выделение не будет видно
-*/
-td::before{
-  content:'';
-  position:absolute;
-  top: -2px;
-  width: 60px;
-  height: 60px;
- background:radial-gradient(circle at center, #0063ef 45%, rgba(255,255,255,.1) 30%);
- z-index: -1;
-}
-/* вертикальное выделение  z-index: -2 - под фишками
-*/
+/* вертикальное выделение  z-index: -1 - под фишками */
 td:hover::after{
   content: "";
   position: absolute;
@@ -47,10 +32,18 @@ td:hover::after{
   top: -5000px;
   height: 10000px;
   width: 100%;
-  z-index: -2;
+  z-index: -1;
+}
+/* горизонтальное выделение */
+tr:hover {
+  background: #ffe581;  
+}
+/* выделение ячейки */
+td:hover{ 
+  background: radial-gradient(circle at center, #110 45%, #FFCC00 30%);   
 }
 
-	</style>
+</style>
 </head>
 <body>
 
