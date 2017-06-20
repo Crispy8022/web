@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    span:hover {
+      font-weight: 700;
+      cursor:pointer;
+    }
+    .hide{
+      display:none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <ul class="tree">
+    <li>Животные
+      <ul>
+        <li>Млекопитающие
+          <ul>
+            <li>Коровы</li>
+            <li>Ослы</li>
+            <li>Собаки</li>
+            <li>Тигры</li>
+          </ul>
+        </li>
+        <li>Другие
+          <ul>
+            <li>Змеи</li>
+            <li>Птицы</li>
+            <li>Ящерицы</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>Рыбы
+      <ul>
+        <li>Аквариумные
+          <ul>
+            <li>Гуппи</li>
+            <li>Скалярии</li>
+          </ul>
+
+        </li>
+        <li>Морские
+          <ul>
+            <li>Морская форель</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <script>
+    var treeUl = document.querySelector('.tree');
+    
+    var treeLis = treeUl.getElementsByTagName('li');
+    
+    for (var i = 0; i < treeLis.length; i++) {
+      var li = treeLis[i];
+    
+      var span = document.createElement('span');
+      li.insertBefore(span, li.firstChild); // добавить пустой SPAN
+      span.appendChild(span.nextSibling); // переместить в него заголовок
+    }
+/* несколько вариантов удаления(упрячивания) элементов */    
+    treeUl.onclick = function(e){
+       if(e.target.tagName != 'SPAN') return;
+       var li = e.target.parentNode;
+      /* if (!li.children[1]) continue;
+       li.children[1].classList.toggle('hide');*/
+      // li.children[1].hidden = !li.children[1].hidden;
+       e.target.nextElementSibling.classList.toggle('hide');
+      /* var liChildren = li.querySelector('ul');
+       if(!liChildren) return;
+       liChildren.classList.toggle('hide');*/
+  };
+  </script>
+
+</body>
+
+</html>
