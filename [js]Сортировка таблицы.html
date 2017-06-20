@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    th {
+      cursor: pointer;
+    }
+
+    th:hover {
+      background: yellow;
+    }
+  </style>
+</head>
+
+<body>
+
+  <table id="grid">
+    <thead>
+      <tr>
+        <th data-type="number">Возраст</th>
+        <th data-type="string">Имя</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5</td>
+        <td>Вася</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Петя</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Женя</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Маша</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Илья</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>/*
+    var table = document.getElementById('grid');
+    var tbody = table.tBodies[0];
+    var rowsArr = [].slice.call(tbody.rows);
+    
+    table.onclick = function(e){
+      var type = e.target.getAttribute("data-type");
+      var colNum = e.target.cellIndex;
+      
+      if(e.target.tagName != "TH") return;
+      
+      sorter(colNum, type);
+    };
+    
+    function sorter(colNum, type){
+      //функция сравнения
+      var compare;
+      switch(type){
+       case "number":
+         compare = function(rowA, rowB){
+           return rowA.cells[colNum].innerHTML - rowB.cells[colNum].innerHTML;
+         };
+         break;
+       case "string":
+         compare = function(rowA, rowB){
+           return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML ? 1 : -1;
+         };
+         break;
+      }
+      
+      rowsArr.sort(compare);
+      
+      // Убрать tbody из большого DOM документа для лучшей производительности
+      table.removeChild(tbody);
+      
+      for(var i=0; i<rowsArr.length; i++)
+        tbody.appendChild(rowsArr[i]);
+        
+      table.appendChild(tbody);
+      
+    };*/
+    
+    function SortedTable(elem){
+      var table = document.getElementById('grid');
+      var tbody = table.tBodies[0];
+      var rowsArr = [].slice.call(tbody.rows);
+      
+      this.number = function(colNum){
+        rowsArr.sort(function(rowA, rowB){
+           return rowA.cells[colNum].innerHTML - rowB.cells[colNum].innerHTML;
+        });
+        table.removeChild(tbody);
+        for(var i=0; i<rowsArr.length; i++)
+          tbody.appendChild(rowsArr[i]);
+        
+        table.appendChild(tbody);
+      };
+      
+      this.string = function(colNum){
+        rowsArr.sort(function(rowA, rowB){
+          return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML ? 1 : -1;
+        });
+        table.removeChild(tbody);
+        for(var i=0; i<rowsArr.length; i++)
+          tbody.appendChild(rowsArr[i]);
+        
+        table.appendChild(tbody);
+      };
+      var self = this;
+      
+      elem.onclick = function(e){
+        var type = e.target.getAttribute("data-type");
+        var colNum = e.target.cellIndex;
+        self[type](colNum);
+      };
+    };
+    
+    new SortedTable(grid);
+    
+  </script>
+
+</body>
+
+</html>
