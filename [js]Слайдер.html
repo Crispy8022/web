@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style type="text/css">
+    .slider {
+      border-radius: 5px;
+      background: #E0E0E0;
+      background: -moz-linear-gradient(left top, #E0E0E0, #EEEEEE) repeat scroll 0 0 transparent;
+      background: -webkit-gradient(linear, left top, right bottom, from(#E0E0E0), to(#EEEEEE));
+      background: linear-gradient(left top, #E0E0E0, #EEEEEE);
+      width: 310px;
+      height: 15px;
+      margin: 5px;
+    }
+
+    .thumb {
+      width: 10px;
+      height: 25px;
+      border-radius: 3px;
+      position: relative;
+      left: 10px;
+      top: -5px;
+      background: blue;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="slider" class="slider">
+    <div class="thumb"></div>
+  </div>
+
+  <script>
+    var slider = document.getElementById('slider');
+    var thumb = slider.children[0];
+    
+    thumb.onmousedown = function(e){
+      var thumbCoords = getCoords(thumb);
+      var shiftX = e.pageX - thumbCoords.left;
+      
+      var sliderCoords = getCoords(slider);
+      
+      document.onmousemove = function(e){
+        var newLeft = e.pageX - shiftX - sliderCoords.left;
+        
+        if (newLeft < 0 ) newLeft = 0;
+        var rightEdge = slider.offsetWidth - thumb.offsetWidth;
+        if (newLeft > rightEdge) newLeft = rightEdge;
+        
+        thumb.style.left = newLeft + 'px';
+      };
+      
+      document.onmouseup = function(e){
+        document.onmousemove = document.onmouseup = null;
+      };
+      
+//      return false;
+    };
+    
+    thumb.ondragstart = function(){
+      return false;
+    };
+    
+    function getCoords(elem){
+      var box = elem.getBoundingClientRect();
+      
+      return {
+        top: box.top + pageYOffset,
+        left: box.left + pageXOffset
+      };
+    }
+    
+  </script>
+
+</body>
+
+</html>
