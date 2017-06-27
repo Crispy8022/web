@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    #matrix::selection {
+      background: rgb(210, 0, 0);
+    }
+
+    #matrix {
+      width: 400px;
+      margin: auto;
+      overflow: auto;
+      text-align: justify;
+    }
+    
+    .arrow {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      color: green;
+      font-size: 25px;
+      cursor: pointer;      
+    }
+  </style>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+  <div id="matrix">
+    <script>
+      for (var i = 0; i < 2000; i++) document.writeln(i)
+    </script>
+  </div>
+
+  <script>
+    var currentPos;
+    var pressedOnce;
+    var upDown = document.createElement('div');
+    upDown.className = 'arrow';
+    upDown.innerHTML = '▲';  
+    upDown.style.display = 'none';
+    document.body.appendChild(upDown);
+    
+    window.onscroll = function(){
+      var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrolled > document.documentElement.clientHeight) {
+        upDown.style.display = 'block';
+        currentPos = scrolled;
+        pressedOnce = true;
+        upDown.innerHTML = '▲';
+      } 
+    };
+    
+    upDown.onclick = function(){
+      if (pressedOnce) {
+        window.scrollTo(0, 0);    
+        upDown.innerHTML = '▼';
+        pressedOnce = !pressedOnce;
+      } else {
+        window.scrollTo(0, currentPos);    
+        upDown.innerHTML = '▲';
+        pressedOnce = !pressedOnce;
+      }
+    };
+
+  </script>
+</body>
+
+</html>
+
+<!--  неплохое решение
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <style>
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    #matrix {
+      width: 400px;
+      margin: auto;
+      overflow: auto;
+      text-align: justify;
+    }
+
+    #updown {
+      height: 9px;
+      width: 14px;
+      color: green;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      cursor: pointer;
+    }
+
+    #updown.up::before {
+      content: '▲';
+    }
+
+    #updown.down::before {
+      content: '▼';
+    }
+  </style>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+  <div id="matrix">
+    <script>
+      for (var i = 0; i < 2000; i++) document.writeln(i)
+    </script>
+  </div>
+
+  <div id="updown"></div>
+
+  <script>
+    var updownElem = document.getElementById('updown');
+
+    var pageYLabel = 0;
+
+    updownElem.onclick = function() {
+      var pageY = window.pageYOffset || document.documentElement.scrollTop;
+
+      switch (this.className) {
+        case 'up':
+          pageYLabel = pageY;
+          window.scrollTo(0, 0);
+          this.className = 'down';
+          break;
+
+        case 'down':
+          window.scrollTo(0, pageYLabel);
+          this.className = 'up';
+      }
+
+    }
+
+    window.onscroll = function() {
+      var pageY = window.pageYOffset || document.documentElement.scrollTop;
+      var innerHeight = document.documentElement.clientHeight;
+
+      switch (updownElem.className) {
+        case '':
+          if (pageY > innerHeight) {
+            updownElem.className = 'up';
+          }
+          break;
+
+        case 'up':
+          if (pageY < innerHeight) {
+            updownElem.className = '';
+          }
+          break;
+
+        case 'down':
+          if (pageY > innerHeight) {
+            updownElem.className = 'up';
+          }
+          break;
+
+      }
+    }
+  </script>
+</body>
+
+</html>
+-->
