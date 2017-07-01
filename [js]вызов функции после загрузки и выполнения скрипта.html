@@ -40,6 +40,39 @@
     });
   </script>
 
+  <!-- массив скриптов -->
+  <script type="text/javascript">
+    function addScripts(scripts, callback){
+      var counter = 0;
+
+      function onLoad() {
+        counter++;
+        if (counter == scripts.length) callback();
+      }
+      
+      for(var i = 0; i < scripts.length; i++){
+        var script = document.createElement('script');
+        script.src = scripts[i];
+        //document.documentElement.appendChild(script);
+        var s = document.getElementsByTagName('script')[0]
+        s.parentNode.insertBefore(script, s);
+        
+        script.onload = onLoad; // все браузеры, IE с версии 9
+  
+        script.onreadystatechange = function() { // IE8-
+          if (this.readyState == 'loaded' || this.readyState == 'complete') {
+            setTimeout(onload, 0);
+          }
+        }; 
+      }
+    }
+
+    // функция a() сработает только если загружены a.js, b.js, c.js
+    addScripts(["a.js", "b.js", "c.js"], function() {
+      a()
+    });
+
+  </script>
 </body>
 
 </html>
