@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.polyfill.io/v1/polyfill.js?features=CustomEvents,Element.prototype.closest"></script>
+  <style type="text/css">
+    .slider {
+      margin: 5px;
+      width: 310px;
+      height: 15px;
+      border-radius: 5px;
+      background: #E0E0E0;
+      background: -moz-linear-gradient(left top, #E0E0E0, #EEEEEE) repeat scroll 0 0 transparent;
+      background: -webkit-gradient(linear, left top, right bottom, from(#E0E0E0), to(#EEEEEE));
+      background: linear-gradient(left top, #E0E0E0, #EEEEEE);
+    }
+
+    .thumb {
+      position: relative;
+      top: -5px;
+      width: 10px;
+      height: 25px;
+      border-radius: 3px;
+      background: blue;
+      cursor: pointer;
+    }
+  </style>
+  
+</head>
+
+<body>
+  <div id="slider" class="slider">
+    <div class="thumb"></div>
+  </div>
+
+
+  Slide:<span id="slide">&nbsp;</span> Change:
+  <span id="change">&nbsp;</span>
+
+  <button onclick="slider.setValue(50)">slider.setValue(50)</button>
+
+  <script>
+    function Slider(options) {
+      var elem = options.elem;
+
+      var thumbElem = elem.querySelector('.thumb');
+
+      var max = options.max || 100;
+      var sliderCoords, thumbCoords, shiftX, shiftY;
+
+      // [<*>----------------]
+      //   |...............|
+      // first            last
+      var pixelsPerValue = (elem.clientWidth - thumbElem.clientWidth) / max;
+
+      elem.ondragstart = function() {
+        return false;
+      };
+
+      elem.onmousedown = function(event) {
+        if (event.target.closest('.thumb')) {
+          startDrag(event.clientX, event.clientY);
+          return false; // disable selection start (cursor change)
+        }
+      }
+
+      function startDrag(startClientX, startClientY) {
+        thumbCoords = thumbElem.getBoundingClientRect();
+        shiftX = startClientX - thumbCoords.left;
+        shiftY = startClientY - thumbCoords.top;
+
+        sliderCoords = elem.getBoundingClientRect();
+
+        document.addEventListener('mousemove', onDocumentMouseMove);
+        document.addEventListener('mouseup', onDocumentMouseUp);
+      }
+
+      function moveTo(clientX) {
+        // вычесть координату родителя, т.к. position: relative
+        var newLeft = clientX - shiftX - sliderCoords.left;
+
+        // курсор ушёл вне слайдера
+        if (newLeft < 0) {
+          newLeft = 0;
+        }
+        var rightEdge = elem.offsetWidth - thumbElem.offsetWidth;
+        if (newLeft > rightEdge) {
+          newLeft = rightEdge;
+        }
+
+        thumbElem.style.left = newLeft + 'px';
+
+        elem.dispatchEvent(new CustomEvent('slide', {
+          bubbles: true,
+          detail: positionToValue(newLeft)
+        }));
+      }
+
+      function valueToPosition(value) {
+        return pixelsPerValue * value;
+      }
+
+      function positionToValue(left) {
+        return Math.round(left / pixelsPerValue);
+      }
+
+      function onDocumentMouseMove(e) {
+        moveTo(e.clientX);
+      }
+
+      function onDocumentMouseUp() {
+        endDrag();
+      }
+
+      function endDrag() {
+        document.removeEventListener('mousemove', onDocumentMouseMove);
+        document.removeEventListener('mouseup', onDocumentMouseUp);
+
+        elem.dispatchEvent(new CustomEvent('change', {
+          bubbles: true,
+          detail: positionToValue(parseInt(thumbElem.style.left))
+        }));
+      }
+
+      function setValue(value) {
+        thumbElem.style.left = valueToPosition(value) + 'px';
+      }
+
+      this.setValue = setValue;
+    }
+/*-----------------------------------------------------------------------------*/
+    var sliderElem = document.getElementById('slider');
+
+    var slider = new Slider({
+      elem: sliderElem,
+      max: 100
+    });
+
+    sliderElem.addEventListener('slide', function(event) {
+      document.getElementById('slide').innerHTML = event.detail;
+    });
+
+    sliderElem.addEventListener('change', function(event) {
+      document.getElementById('change').innerHTML = event.detail;
+    });
+  </script>
+
+
+</body>
+
+</html>
