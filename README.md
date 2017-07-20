@@ -1,1 +1,1 @@
-HTML & CSS features and small projects
+HTML, CSS, JS features and small projects
