@@ -42,3 +42,11 @@ var matrix  = [[false, true, true], [true, false, true]],
     grid = matrix[0].map((col, i) => matrix.map(row => row[i]));  
 
 console.log(grid);
+//--------------------------------------------------------
+//проверка каждого эелемента с каждым в двумерном массиве
+for(var i = 0; i < bd.length; i++){
+  for( var j = 0; j < bd[i].length; j++){    
+    if (bd[i][j] != bd[i][bd[i].indexOf(bd[i][j],j+1)] ) console.log(true);
+    else console.log(false);
+  }
+}
