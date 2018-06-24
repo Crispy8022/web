@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    ul{
+      display:none;
+    }
+    .title{
+      cursor: pointer;
+    }
+    .title::before{
+      content: '▶ ';
+      color:green;
+    }
+    .open .title::before{
+      content: '▼ ';
+      color:green;
+    }
+    .open ul{
+      display:block;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div id="sweeties" class="menu">
+    <span class="title">Сладости (нажми меня)!</span>
+      <ul>
+        <li>Торт</li>
+        <li>Пончик</li>
+        <li>Пирожное</li>
+      </ul>
+  </div>
+  
+  <script>
+    var title = sweeties.querySelector(".title");
+    title.addEventListener("click", function(){
+      sweeties.classList.toggle("open");
+    });
+  </script>
+
+</body>
+
+</html>
