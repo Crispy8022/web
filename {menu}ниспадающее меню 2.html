@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Меню</title>
+  <style>
+   .menu, .menu ul { 
+    /* Обнуляем отступы и убираем маркеры у списков */
+    list-style: none; margin: 0; padding: 0;
+   }
+   .menu {
+    background: linear-gradient(to bottom, #fff, #f1f2f2); /* Градиент */
+    border: 1px solid #999; /* Параметры рамки */
+    padding: 0 5px; /* Поля */
+    font: 14px Arial, sans-serif; /* Параметры шрифта */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Тень под меню */
+   }
+   .menu > li {
+    display: inline-block; /* Выстраиваем по горизонтали */
+    border-right: 1px solid #fff; /* Белая линия справа */
+    position: relative; /* Относительное позиционирование */
+   }
+   .menu a {
+    text-decoration: none; /* Убираем подчёркивание */
+    color: #4c4c4c; /* Цвет ссылок */
+    display: block; /* Блочные ссылки */
+   }
+   .menu > li > a {
+    padding: 10px 15px; /* Поля */
+    border-right: 1px solid #d8d8d8; /* Серая линия справа */
+    position: relative; z-index: 3; /* Выводим поверх остальных элементов */
+   }
+   .menu ul {
+    position: absolute; /* Абсолютное позиционирование */
+    display: none; /* Прячем подменю */
+    width: 200px; /* Ширина подменю */
+    background: #fff; /* Цвет фона */
+    box-shadow: 0 0 10px #666; /* Параметры тени */
+   }
+   .menu ul a {
+    padding: 5px 10px; /* Поля */
+   }
+   .menu ul a:hover {
+    background: #008df2; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+   }
+   .menu li:hover ul {
+    display: block; /* Показываем подменю */
+   }
+   .menu > li:hover::before {
+    content: ''; /* Создаём пустой псевдоэлемент */
+    top: 0; left: 0; right: 0; bottom: 0; /* Размер совпадает с пунктом меню */
+    box-shadow: 0 5px 10px #666; /* Параметры тени */
+    position: absolute; /* Абсолютное позиционирование */
+   }
+   .menu > li:hover > a {
+    background: #fff; /* Цвет фона */
+   }
+  </style>
+ </head>
+ <body>
+  <ul class="menu">
+   <li><a href="#">Русская кухня</a>
+    <ul> 
+     <li><a href="#">Бефстроганов</a></li> 
+     <li><a href="#">Гусь с яблоками</a></li> 
+     <li><a href="#">Крупеник новгородский</a></li> 
+     <li><a href="#">Раки по-русски</a></li> 
+    </ul> 
+   </li> 
+   <li><a href="#">Украинская кухня</a> 
+    <ul> 
+     <li><a href="#">Вареники</a></li> 
+     <li><a href="#">Жаркое по-харьковски</a></li> 
+     <li><a href="#">Капустняк черниговский</a></li> 
+     <li><a href="#">Потапцы с помидорами</a></li> 
+    </ul> 
+   </li>
+   <li><a href="#">Кавказская кухня</a></li> 
+  </ul>
+ </body>
+</html>
